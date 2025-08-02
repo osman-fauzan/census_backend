@@ -79,7 +79,7 @@ service.closeConnection();
 
 ## License
 
-[Specify your license here, e.g., MIT License. Replace this line with a link to LICENSE if available.]
+
 
 ## Author
 
