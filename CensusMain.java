@@ -12,6 +12,8 @@ public class CensusMain {
 
     private JFrame frame;
     private JTextField[] textFields = new JTextField[32];
+    //Adding a separate array for JComboBoxes
+    private final java.util.Map<String, JComponent> fieldComponents = new java.util.HashMap<>();
     private JTextArea txtOutput;
     private JTable recordsTable;
     private DefaultTableModel tableModel;
@@ -163,18 +165,78 @@ public class CensusMain {
             panel.add(lbl, gbc);
 
             gbc.gridx = 1;
-            JTextField tf = new JTextField();
-            tf.setPreferredSize(new Dimension(250, 25));
-            tf.setToolTipText("Enter " + label.toLowerCase());
-            panel.add(tf, gbc);
-
-            if (fieldIdx < textFields.length)
-                textFields[fieldIdx++] = tf;
+            
+            JComponent inputField;
+            //Using Switch case to make various options for the dropdowns
+            switch (label.toLowerCase()) {
+                case "gender":
+                    inputField = new JComboBox<>(new String[]{"Male", "Female", "Other"});
+                    break;
+                case "age":
+                    String[] ages = new String[121];
+                    for (int i = 0; i <= 120; i++) ages[i] = String.valueOf(i);
+                    inputField = new JComboBox<>(ages);
+                    break;
+                case "marital status":
+                    inputField = new JComboBox<>(new String[]{"Single", "Married", "Divorced", "Widowed"});
+                    break;
+                case "education level":
+                    inputField = new JComboBox<>(new String[]{"None", "Primary", "JHS", "SHS", "Tertiary", "Postgraduate"});
+                    break;
+                case "employment status":
+                    inputField = new JComboBox<>(new String[]{"Employed", "Unemployed", "Self-Employed", "Student"});
+                    break;
+                //Adding a date picker component
+                case "date of birth":
+                    SpinnerDateModel dateModel = new SpinnerDateModel();
+                    JSpinner spinner = new JSpinner(dateModel);
+                    JSpinner.DateEditor editor = new JSpinner.DateEditor(spinner, "yyyy-MM-dd");
+                    spinner.setEditor(editor);
+                    spinner.setPreferredSize(new Dimension(250, 25));
+                    inputField = spinner;
+                    break;
+                default:
+                    JTextField tf = new JTextField();
+                    tf.setPreferredSize(new Dimension(250, 25));
+                    tf.setToolTipText("Enter " + label.toLowerCase());
+                    textFields[fieldIdx] = tf;
+                    inputField = tf;
+            }
+    
+            inputField.setPreferredSize(new Dimension(250, 25));
+            panel.add(inputField, gbc);
+            fieldComponents.put(label.toLowerCase(), inputField);
+    
+            fieldIdx++;
         }
         parent.add(panel);
         return fieldIdx;
     }
 
+    private String getValue(String key) {
+    JComponent comp = fieldComponents.get(key);
+    if (comp instanceof JTextField) return ((JTextField) comp).getText();
+    if (comp instanceof JComboBox<?> cb) return String.valueOf(cb.getSelectedItem());
+    if (comp instanceof JSpinner spinner) return new java.text.SimpleDateFormat("yyyy-MM-dd").format(spinner.getValue());
+    return "";
+    }
+
+    private void setValue(String key, String value) {
+        JComponent comp = fieldComponents.get(key);
+        try {
+            if (comp instanceof JTextField tf) tf.setText(value);
+            else if (comp instanceof JComboBox cb) cb.setSelectedItem(value);
+            else if (comp instanceof JSpinner spinner) {
+                java.util.Date date = java.sql.Date.valueOf(value);
+                spinner.setValue(date);
+            }
+        } catch (Exception e) {
+            txtOutput.setText("Date parse error for " + key + ": " + e.getMessage());
+        }
+    }
+
+
+    //Updated to match changes
     private CensusRecord collectInput() {
         CensusRecord record = new CensusRecord();
         try {
@@ -186,10 +248,10 @@ public class CensusMain {
             record.setPersonID(textFields[4].getText());
             record.setFirstName(textFields[5].getText());
             record.setLastName(textFields[6].getText());
-            record.setGender(textFields[7].getText());
-            record.setDateOfBirth(parseDateSafe(textFields[8].getText()));
-            record.setAge(textFields[9].getText());
-            record.setMaritalStatus(textFields[10].getText());
+            record.setGender(getValue("gender"));
+            record.setDateOfBirth(Date.valueOf(getValue("date of birth")));
+            record.setAge(getValue("age"));
+            record.setMaritalStatus(getValue("marital status"));
             record.setOccupation(textFields[11].getText());
             record.setReligion(textFields[12].getText());
             record.setNationality(textFields[13].getText());
@@ -203,12 +265,12 @@ public class CensusMain {
             record.setGpsLocation(textFields[20].getText());
 
             record.setEducationID(textFields[21].getText());
-            record.setEducationLevel(textFields[22].getText());
+            record.setEducationLevel(getValue("educational level"));
             record.setSchoolName(textFields[23].getText());
             record.setYearCompleted(textFields[24].getText());
 
             record.setEmploymentID(textFields[25].getText());
-            record.setEmploymentStatus(textFields[26].getText());
+            record.setEmploymentStatus(getValue("employment status"));
             record.setEmployerName(textFields[27].getText());
 
             record.setHouseholdID(textFields[28].getText());
@@ -258,7 +320,8 @@ public class CensusMain {
         populateFields(record);
         txtOutput.setText("Record retrieved successfully.");
     }
-
+    
+    //Updated to match changes
     private void populateFields(CensusRecord record) {
         textFields[0].setText(record.getOfficerID());
         textFields[1].setText(record.getOfficerName());
@@ -268,10 +331,10 @@ public class CensusMain {
         textFields[4].setText(record.getPersonID());
         textFields[5].setText(record.getFirstName());
         textFields[6].setText(record.getLastName());
-        textFields[7].setText(record.getGender());
-        textFields[8].setText(record.getDateOfBirth() != null ? record.getDateOfBirth().toString() : "");
-        textFields[9].setText(record.getAge());
-        textFields[10].setText(record.getMaritalStatus());
+        setValue("gender", record.getGender());
+        setValue("date of birth", record.getDateOfBirth() != null ? record.getDateOfBirth().toString() : "");
+        setValue("age", record.getAge());
+        setValue("marital status", record.getMaritalStatus());
         textFields[11].setText(record.getOccupation());
         textFields[12].setText(record.getReligion());
         textFields[13].setText(record.getNationality());
@@ -285,12 +348,12 @@ public class CensusMain {
         textFields[20].setText(record.getGpsLocation());
 
         textFields[21].setText(record.getEducationID());
-        textFields[22].setText(record.getEducationLevel());
+        setValue("education level", record.getEducationLevel());
         textFields[23].setText(record.getSchoolName());
         textFields[24].setText(record.getYearCompleted());
 
         textFields[25].setText(record.getEmploymentID());
-        textFields[26].setText(record.getEmploymentStatus());
+        setValue("employment status", record.getEmploymentStatus());
         textFields[27].setText(record.getEmployerName());
 
         textFields[28].setText(record.getHouseholdID());
@@ -339,3 +402,4 @@ public class CensusMain {
         }
     }
 }
+
