@@ -1,15 +1,15 @@
 public class CensusRecord {
-    private String officerID;
+    private int officerID;
     private String officerName;
     private String officerPosition;
     private String officerContact;
 
-    private String personID;
+    private int personID;
     private String firstName;
     private String lastName;
     private String gender;
     private java.sql.Date dateOfBirth;
-    private String age;
+    private int age;
     private String maritalStatus;
     private String occupation;
     private String religion;
@@ -23,28 +23,28 @@ public class CensusRecord {
     private String houseNumber;
     private String gpsLocation;
 
-    private String educationID;
+    private int educationID;
     private String educationLevel;
     private String schoolName;
     private String yearCompleted;
 
-    private String employmentID;
+    private int employmentID;
     private String employmentStatus;
     private String employerName;
 
-    private String householdID;
+    private int householdID;
     private String headID;
-    private String householdSize;
+    private int householdSize;
     private String relationToHead;
 
     // Additional fields to resolve missing methods in CensusDBService
-    private String addressID;
+    private int addressID;
     private String relationshipToHead;
 
     // --- Getters and Setters ---
 
-    public String getOfficerID() { return officerID; }
-    public void setOfficerID(String officerID) { this.officerID = officerID; }
+    public int  getOfficerID() { return officerID; }
+    public void setOfficerID(int officerID) { this.officerID = officerID; }
     public String getOfficerName() { return officerName; }
     public void setOfficerName(String officerName) { this.officerName = officerName; }
     public String getOfficerPosition() { return officerPosition; }
@@ -52,8 +52,8 @@ public class CensusRecord {
     public String getOfficerContact() { return officerContact; }
     public void setOfficerContact(String officerContact) { this.officerContact = officerContact; }
 
-    public String getPersonID() { return personID; }
-    public void setPersonID(String personID) { this.personID = personID; }
+    public int getPersonID() { return personID; }
+    public void setPersonID(int personID) { this.personID = personID; }
     public String getFirstName() { return firstName; }
     public void setFirstName(String firstName) { this.firstName = firstName; }
     public String getLastName() { return lastName; }
@@ -62,8 +62,8 @@ public class CensusRecord {
     public void setGender(String gender) { this.gender = gender; }
     public java.sql.Date getDateOfBirth() { return dateOfBirth; }
     public void setDateOfBirth(java.sql.Date dateOfBirth) { this.dateOfBirth = dateOfBirth; }
-    public String getAge() { return age; }
-    public void setAge(String age) { this.age = age; }
+    public int getAge() { return age; }
+    public void setAge(int age) { this.age = age; }
     public String getMaritalStatus() { return maritalStatus; }
     public void setMaritalStatus(String maritalStatus) { this.maritalStatus = maritalStatus; }
     public String getOccupation() { return occupation; }
@@ -88,8 +88,8 @@ public class CensusRecord {
     public String getGpsLocation() { return gpsLocation; }
     public void setGpsLocation(String gpsLocation) { this.gpsLocation = gpsLocation; }
 
-    public String getEducationID() { return educationID; }
-    public void setEducationID(String educationID) { this.educationID = educationID; }
+    public int getEducationID() { return educationID; }
+    public void setEducationID(int educationID) { this.educationID = educationID; }
     public String getEducationLevel() { return educationLevel; }
     public void setEducationLevel(String educationLevel) { this.educationLevel = educationLevel; }
     public String getSchoolName() { return schoolName; }
@@ -97,25 +97,25 @@ public class CensusRecord {
     public String getYearCompleted() { return yearCompleted; }
     public void setYearCompleted(String yearCompleted) { this.yearCompleted = yearCompleted; }
 
-    public String getEmploymentID() { return employmentID; }
-    public void setEmploymentID(String employmentID) { this.employmentID = employmentID; }
+    public int getEmploymentID() { return employmentID; }
+    public void setEmploymentID(int employmentID) { this.employmentID = employmentID; }
     public String getEmploymentStatus() { return employmentStatus; }
     public void setEmploymentStatus(String employmentStatus) { this.employmentStatus = employmentStatus; }
     public String getEmployerName() { return employerName; }
     public void setEmployerName(String employerName) { this.employerName = employerName; }
 
-    public String getHouseholdID() { return householdID; }
-    public void setHouseholdID(String householdID) { this.householdID = householdID; }
+    public int getHouseholdID() { return householdID; }
+    public void setHouseholdID(int householdID) { this.householdID = householdID; }
     public String getHeadID() { return headID; }
     public void setHeadID(String headID) { this.headID = headID; }
-    public String getHouseholdSize() { return householdSize; }
-    public void setHouseholdSize(String householdSize) { this.householdSize = householdSize; }
+    public int getHouseholdSize() { return householdSize; }
+    public void setHouseholdSize(int householdSize) { this.householdSize = householdSize; }
     public String getRelationToHead() { return relationToHead; }
     public void setRelationToHead(String relationToHead) { this.relationToHead = relationToHead; }
 
     // For compatibility with CensusDBService
-    public String getAddressID() { return addressID; }
-    public void setAddressID(String addressID) { this.addressID = addressID; }
+    public int getAddressID() { return addressID; }
+    public void setAddressID(int addressID) { this.addressID = addressID; }
     public String getRelationshipToHead() { return relationshipToHead; }
     public void setRelationshipToHead(String relationshipToHead) { this.relationshipToHead = relationshipToHead; }
 }
