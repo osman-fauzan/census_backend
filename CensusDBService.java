@@ -37,32 +37,32 @@ public class CensusDBService {
         try {
             stmt = connection.prepareCall("{CALL sp_insert_census_record(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
             // Set parameters as before...
-            stmt.setString(1, record.getOfficerID());
+            stmt.setInt(1, record.getOfficerID());
             stmt.setString(2, record.getOfficerName());
             stmt.setString(3, record.getOfficerPosition());
             stmt.setString(4, record.getOfficerContact());
-            stmt.setString(5, record.getPersonID());
+            stmt.setInt(5, record.getPersonID());
             stmt.setString(6, record.getFirstName());
             stmt.setString(7, record.getLastName());
             stmt.setString(8, record.getGender());
             stmt.setDate(9, record.getDateOfBirth());
-            stmt.setString(10, record.getAddressID());
+            stmt.setInt(10, record.getAddressID());
             stmt.setString(11, record.getRegion());
             stmt.setString(12, record.getDistrict());
             stmt.setString(13, record.getCommunity());
             stmt.setString(14, record.getHouseNumber());
             stmt.setString(15, record.getStreetName());
             stmt.setString(16, record.getGpsLocation());
-            stmt.setString(17, record.getEducationID());
+            stmt.setInt(17, record.getEducationID());
             stmt.setString(18, record.getEducationLevel());
             stmt.setString(19, record.getSchoolName());
             stmt.setString(20, record.getYearCompleted());
-            stmt.setString(21, record.getEmploymentID());
+            stmt.setInt(21, record.getEmploymentID());
             stmt.setString(22, record.getOccupation());
             stmt.setString(23, record.getEmployerName());
             stmt.setString(24, record.getEmploymentStatus());
-            stmt.setString(25, record.getHouseholdID());
-            stmt.setString(26, record.getRelationshipToHead());
+            stmt.setInt(25, record.getHouseholdID());
+            stmt.setString(26, record.getRelationToHead());
 
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
@@ -92,31 +92,31 @@ public class CensusDBService {
                 try (ResultSet rs = stmt.getResultSet()) {
                     while (rs.next()) {
                         CensusRecord record = new CensusRecord();
-                        record.setOfficerID(rs.getString("officer_id"));
+                        record.setOfficerID(rs.getInt("officer_id"));
                         record.setOfficerName(rs.getString("officer_name"));
                         record.setOfficerPosition(rs.getString("officer_position"));
                         record.setOfficerContact(rs.getString("officer_contact"));
-                        record.setPersonID(rs.getString("person_id"));
+                        record.setPersonID(rs.getInt("person_id"));
                         record.setFirstName(rs.getString("first_name"));
                         record.setLastName(rs.getString("last_name"));
                         record.setGender(rs.getString("gender"));
                         record.setDateOfBirth(rs.getDate("date_of_birth"));
-                        record.setAddressID(rs.getString("address_id"));
+                        record.setAddressID(rs.getInt("address_id"));
                         record.setRegion(rs.getString("region"));
                         record.setDistrict(rs.getString("district"));
                         record.setCommunity(rs.getString("community"));
                         record.setHouseNumber(rs.getString("house_number"));
                         record.setStreetName(rs.getString("street_name"));
                         record.setGpsLocation(rs.getString("gps_location"));
-                        record.setEducationID(rs.getString("education_id"));
+                        record.setEducationID(rs.getInt("education_id"));
                         record.setEducationLevel(rs.getString("education_level"));
                         record.setSchoolName(rs.getString("school_name"));
                         record.setYearCompleted(rs.getString("year_completed"));
-                        record.setEmploymentID(rs.getString("employment_id"));
+                        record.setEmploymentID(rs.getInt("employment_id"));
                         record.setOccupation(rs.getString("occupation"));
                         record.setEmployerName(rs.getString("employer_name"));
                         record.setEmploymentStatus(rs.getString("employment_status"));
-                        record.setHouseholdID(rs.getString("household_id"));
+                        record.setHouseholdID(rs.getInt("household_id"));
                         record.setRelationshipToHead(rs.getString("relationship_to_head"));
                         records.add(record);
                     }
@@ -131,36 +131,36 @@ public class CensusDBService {
         }
     }
 
-    public CensusOperationResult updateCensusRecord(String recordID, CensusRecord updatedRecord) {
+    public CensusOperationResult updateCensusRecord(int recordID, CensusRecord updatedRecord) {
         CallableStatement stmt = null;
         try {
             stmt = connection.prepareCall("{CALL sp_update_census_record(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
-            stmt.setString(1, recordID);
-            stmt.setString(2, updatedRecord.getOfficerID());
+            stmt.setInt(1, recordID);
+            stmt.setInt(2, updatedRecord.getOfficerID());
             stmt.setString(3, updatedRecord.getOfficerName());
             stmt.setString(4, updatedRecord.getOfficerPosition());
             stmt.setString(5, updatedRecord.getOfficerContact());
-            stmt.setString(6, updatedRecord.getPersonID());
+            stmt.setInt(6, updatedRecord.getPersonID());
             stmt.setString(7, updatedRecord.getFirstName());
             stmt.setString(8, updatedRecord.getLastName());
             stmt.setString(9, updatedRecord.getGender());
             stmt.setDate(10, updatedRecord.getDateOfBirth());
-            stmt.setString(11, updatedRecord.getAddressID());
+            stmt.setInt(11, updatedRecord.getAddressID());
             stmt.setString(12, updatedRecord.getRegion());
             stmt.setString(13, updatedRecord.getDistrict());
             stmt.setString(14, updatedRecord.getCommunity());
             stmt.setString(15, updatedRecord.getHouseNumber());
             stmt.setString(16, updatedRecord.getStreetName());
             stmt.setString(17, updatedRecord.getGpsLocation());
-            stmt.setString(18, updatedRecord.getEducationID());
+            stmt.setInt(18, updatedRecord.getEducationID());
             stmt.setString(19, updatedRecord.getEducationLevel());
             stmt.setString(20, updatedRecord.getSchoolName());
             stmt.setString(21, updatedRecord.getYearCompleted());
-            stmt.setString(22, updatedRecord.getEmploymentID());
+            stmt.setInt(22, updatedRecord.getEmploymentID());
             stmt.setString(23, updatedRecord.getOccupation());
             stmt.setString(24, updatedRecord.getEmployerName());
             stmt.setString(25, updatedRecord.getEmploymentStatus());
-            stmt.setString(26, updatedRecord.getHouseholdID());
+            stmt.setInt(26, updatedRecord.getHouseholdID());
             stmt.setString(27, updatedRecord.getRelationshipToHead());
 
             int rowsAffected = stmt.executeUpdate();
